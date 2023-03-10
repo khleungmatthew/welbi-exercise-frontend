@@ -1,0 +1,14 @@
+{
+  "LOCAL": {
+    "API_URL": "https://welbi.org/api/"
+  },
+  "DEV": {
+    "API_URL": ""
+  },
+  "QA": {
+    "API_URL": ""
+  },
+  "PROD": {
+    "API_URL": ""
+  }
+}
