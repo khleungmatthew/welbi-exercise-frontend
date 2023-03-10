@@ -154,7 +154,8 @@ const ModalCreateProgram = (props: ModalCreateProgramProps) => {
       return res;
     });
     console.log(res);
-    location.reload();
+    setProgram(defaultProgram);
+    props.handleClose();
   };
 
   return (

@@ -139,7 +139,8 @@ const ModalCreateResident = (props: ModalCreateResidentProps) => {
       return res;
     });
     console.log(res);
-    location.reload();
+    setResident(defaultResident);
+    props.handleClose();
   };
 
   return (

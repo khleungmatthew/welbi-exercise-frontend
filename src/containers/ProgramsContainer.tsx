@@ -149,11 +149,11 @@ const ProgramsContainer: React.FC = () => {
             location: program.location,
             allDay: program.allDay ? 'Yes' : 'No',
             period: `From ${moment(program.start).format('MMMM Do YYYY, h:mm:ss a')} to ${moment(program.end).format('MMMM Do YYYY, h:mm:ss a')}`,
-            tags: program.tags,
+            tags: typeof program.tags !== 'string' ? program.tags.join(', ') : program.tags,
             dimension: program.dimension,
-            facilitators: program.facilitators,
-            levelOfCare: program.levelOfCare,
-            hobbies: program.hobbies,
+            facilitators: typeof program.facilitators !== 'string' ? program.facilitators.join(', ') : program.facilitators,
+            levelOfCare: typeof program.levelOfCare !== 'string' ? program.levelOfCare.join(', ') : program.levelOfCare,
+            hobbies: typeof program.hobbies !== 'string' ? program.hobbies.join(', ') : program.hobbies,
             recurrence: program.isRepeated
               ? 'Yes'
               : 'No',

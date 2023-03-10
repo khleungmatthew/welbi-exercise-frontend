@@ -26,21 +26,8 @@ function createRestActions<T extends BaseEntity>(entityNamePlural: string) {
       return (await Api.get<T>(`${entityNamePlural}${query}`)) as T[];
     }),
 
-    getOne: createAsyncThunk<T, string | number>(`${entityNamePlural}/getOne`, async (id) => {
-      return (await Api.get<T>(`${entityNamePlural}/${id}`)) as T;
-    }),
-
     create: createAsyncThunk<T, T>(`${entityNamePlural}/create`, async (data) => {
       return (await Api.post(entityNamePlural, data)) as T;
-    }),
-
-    update: createAsyncThunk<T, T>(`${entityNamePlural}/update`, async (data) => {
-      return (await Api.put(`${entityNamePlural}/${data.id ?? ''}`, data)) as T;
-    }),
-
-    remove: createAsyncThunk<string | number, string | number>(`${entityNamePlural}/remove`, async (id) => {
-      await Api.remove<T>(`${entityNamePlural}/${id}`);
-      return id;
     })
   };
 }
@@ -74,17 +61,6 @@ export default function createRestService<T extends BaseEntity>(entityNamePlural
         state.isFetchingMany = false;
       });
 
-      builder.addCase(restActions.getOne.pending, (state, _) => {
-        state.isFetchingOne = true;
-      });
-      builder.addCase(restActions.getOne.fulfilled, (state, action) => {
-        state.isFetchingOne = false;
-        adapter.upsertOne(state as RestState<T>, action.payload);
-      });
-      builder.addCase(restActions.getOne.rejected, (state, _) => {
-        state.isFetchingOne = false;
-      });
-
       builder.addCase(restActions.create.pending, (state, _) => {
         state.isCreating = true;
       });
@@ -94,28 +70,6 @@ export default function createRestService<T extends BaseEntity>(entityNamePlural
       });
       builder.addCase(restActions.create.rejected, (state, _) => {
         state.isCreating = false;
-      });
-
-      builder.addCase(restActions.update.pending, (state, _) => {
-        state.isUpdating = true;
-      });
-      builder.addCase(restActions.update.fulfilled, (state, action) => {
-        state.isUpdating = false;
-        adapter.upsertOne(state as RestState<T>, action.payload);
-      });
-      builder.addCase(restActions.update.rejected, (state, _) => {
-        state.isUpdating = false;
-      });
-
-      builder.addCase(restActions.remove.pending, (state, _) => {
-        state.isDeleting = true;
-      });
-      builder.addCase(restActions.remove.fulfilled, (state, action) => {
-        state.isDeleting = false;
-        adapter.removeOne(state as RestState<T>, action.payload);
-      });
-      builder.addCase(restActions.remove.rejected, (state, _) => {
-        state.isDeleting = false;
       });
     }
   });
