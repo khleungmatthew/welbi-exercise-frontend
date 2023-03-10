@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+
 import * as Api from '../api';
 
 import {
@@ -31,6 +33,7 @@ interface Session {
 
 const LoginContainer: React.FC = () => {
   const [email, setEmail] = useState<string>('');
+  const navigate = useNavigate();
   const { heading, submitButton, loginText } = useStyles();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -44,6 +47,7 @@ const LoginContainer: React.FC = () => {
       return (res as Session);
     });
     localStorage.setItem('token', session?.token ?? '');
+    navigate('/residents');
   };
 
   return (
